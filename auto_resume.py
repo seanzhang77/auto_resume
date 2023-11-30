@@ -5,7 +5,7 @@
 ##########################################
 downloaders = [
     {
-        'url': 'https://127.0.0.1:8085/', 
+        'url': 'https://127.0.0.1:8080/', 
         'username': 'xxx',
         'password': 'xxx'
     },
@@ -47,7 +47,15 @@ for dl in downloaders:
             print("no waiting seeds")
         for t in lis:
             if t['progress'] == 1:
-                print("resume: ", t['infohash_v1'])
-                qb.resume(t['infohash_v1'])
+                cur_hash = ''
+                if 'hash' in t:
+                    cur_hash = t['hash']
+                else:
+                    cur_hash = t['infohash_v1']
+                    if t['infohash_v2'].strip():
+                        print("warning: v2 torrent not supported")
+
+                print("resume: ", cur_hash)
+                qb.resume(cur_hash)
 
 
